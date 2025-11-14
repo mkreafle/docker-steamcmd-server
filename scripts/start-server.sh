@@ -76,18 +76,7 @@ if [ ! -d ${SERVER_DIR}/WINE64/drive_c/windows ]; then
 else
 	echo "---WINE properly set up---"
 fi
-if [ ! -f ~/.screenrc ]; then
-    echo "defscrollback 30000
-bindkey \"^C\" echo 'Blocked. Please use to command \"exit\" to shutdown the server or close this window to exit the terminal.'" > ~/.screenrc
-fi
-if [ ! -f ${SERVER_DIR}/server_config.cfg ]; then
-    cp ${SERVER_DIR}/initial_server_config.cfg ${SERVER_DIR}/server_config.cfg
-    sed -i '/^#/!s/server_name=.*/server_name="Wreckfest Docker"/g' ${SERVER_DIR}/server_config.cfg
-    sed -i '/welcome_message=/c\welcome_message="Welcome to Wreckfest running on Docker"' ${SERVER_DIR}/server_config.cfg
-    sed -i '/^#/!s/password=.*/password="Docker"/g' ${SERVER_DIR}/server_config.cfg
-else
-    echo "---'server_config.cfg' found..."
-fi
+
 echo "---Checking for old display lock files---"
 find /tmp -name ".X99*" -exec rm -f {} \; > /dev/null 2>&1
 chmod -R ${DATA_PERM} ${DATA_DIR}
@@ -98,11 +87,7 @@ Xvfb :99 -screen scrn 640x480x16 2>/dev/null &
 sleep 3
 
 echo "---Start Server---"
-cd ${SERVER_DIR}
-screen -S Wreckfest -d -m wine64 Wreckfest_x64.exe -s server_config=server_config.cfg ${GAME_PARAMS}
+cd ${SERVER_DIR}/BoatGame/Binaries/Win64
+wine64 BoatGameServer-Win64-Shipping.exe ${GAME_PARAMS}
 sleep 1
-if [ "${ENABLE_WEBCONSOLE}" == "true" ]; then
-    /opt/scripts/start-gotty.sh 2>/dev/null &
-fi
-sleep 1
-tail --pid=$(pgrep Wreckfest_x64.e) -f /dev/null
+echo "===WE BE DEAD==="
