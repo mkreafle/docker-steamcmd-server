@@ -26,8 +26,8 @@ chown -R ${UID}:${GID} ${DATA_DIR}
 
 echo "---Starting...---"
 term_handler() {
-	kill -SIGTERM $(pgrep Wreckfest_x64.e)
-	tail --pid=$(pgrep Wreckfest_x64.e) -f 2>/dev/null
+	kill -SIGTERM $(pgrep BoatGameServer)
+	tail --pid=$(pgrep BoatGameServer) -f 2>/dev/null
 	exit 143;
 }
 
